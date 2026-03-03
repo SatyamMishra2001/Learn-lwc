@@ -1,0 +1,26 @@
+<template>
+
+    <lightning-card title="Hide & Seek" >
+        <div class="slds-grid slds-gutters">
+            
+                  <div class="slds-col">
+                    <template if:true={visible}>
+                    <lightning-button label="Click1" onclick={handleClick}></lightning-button>
+                </template>
+                </div>
+            
+            
+               
+           
+            
+            <div class="slds-col">
+                <template if:false={visible}>
+              <lightning-button label="Click2" onclick={handleClick}></lightning-button>
+           </template>
+            </div>
+            
+            
+        </div>
+    </lightning-card>
+    
+</template>

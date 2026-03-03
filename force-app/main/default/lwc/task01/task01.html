@@ -1,0 +1,32 @@
+        <template>
+            
+            <lightning-card title="Task 01 ">
+                <p>Hello {firstName}, {lastName}</p>
+                <p>Age : {age}</p>
+
+                <div class="slds-grid slds-grid_pull-padded-medium">
+        <div class="slds-col slds-p-horizontal_medium">
+        <lightning-input label="First Name" onchange={handleFirstNameChange}></lightning-input>
+        </div>
+        <div class="slds-col slds-p-horizontal_medium">
+        <lightning-input label="Last Name" onchange={handleLastNameChange}></lightning-input>
+        </div>  
+        </div>
+
+            <div class="slds-grid">
+        <div class="slds-col">
+        <span></span>
+        </div>
+        <div class="slds-col">
+        <lightning-input label="Age" type="Number" onchange={handleAgeChange}></lightning-input>
+        </div>
+        <div class="slds-col">
+        <span></span>
+        </div>
+        </div>
+
+
+        </lightning-card>
+
+
+            </template>

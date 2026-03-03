@@ -1,0 +1,15 @@
+<template>
+
+    <lightning-card title="If Else Condition Demo">
+        <div class="slds-p-horizontal_medium">
+            <lightning-input type="number" label="Enter a number" value={inputValue} onchange={handleInputChange}></lightning-input>
+            <template if:true={isEven}>
+                <p>The number {inputValue} is even.</p>
+            </template>
+            <template if:true={isOdd}>
+                <p>The number {inputValue} is odd.</p>
+            </template>
+        </div>
+    </lightning-card>
+    
+</template>

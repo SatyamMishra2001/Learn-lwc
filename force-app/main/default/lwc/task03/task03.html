@@ -1,0 +1,29 @@
+<template>
+
+    <!-- Show selected date -->
+    <div class="slds-box" style="background-color: greenyellow;">
+
+        <p>{DateValue}</p>
+        <lightning-input type="Date" label="Enter Date"  onchange={onDateHandle}></lightning-input>
+    </div>
+
+    <!-- Show button after selecting the date  -->
+    <div class="slds-box" style="background-color: rgb(37, 41, 238);">
+
+    <template if:true={ShowButton}>
+    <lightning-button label="Click Me" variant="success" onclick={handleClick}></lightning-button>    
+     </template>
+ </div>
+
+<!-- Show names and phone numbers  after clicking to the button-->
+    <div class="slds-box" style="background-color: rgb(238, 37, 90);">
+
+        <template if:true={showNames}>
+            <template for:each={names} for:item="name">
+                <p key={name.Id}> Name: {name.name}, Phone: {name.phone}</p>
+            </template>
+        </template>
+
+     </div>
+
+</template>

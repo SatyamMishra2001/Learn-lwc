@@ -1,0 +1,61 @@
+<template>
+    
+    <lightning-card title="Arrays" icon-name="standard:user">
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+            <span></span>
+            </div>
+            <div class="slds-col">
+            <lightning-button label="Button6" variant="brand"  onclick={handleButtonClick6}></lightning-button>
+            </div>
+            <div class="slds-col">
+            <span></span>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <lightning-button label="Button4" variant="brand" onclick={handleButtonClick4}></lightning-button>
+            </div>
+            <div class="slds-col">
+                <lightning-button label="Button1" variant="brand" onclick={handleButtonClick1}></lightning-button>
+            </div>
+            <div class="slds-col">
+                <lightning-button label="Button5" variant="brand" onclick={handleButtonClick5}></lightning-button>
+            </div>
+        </div>
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+            <span></span>
+            </div>
+            <div class="slds-col">
+                <lightning-button label="Button2" variant="brand" onclick={handleButtonClick2}></lightning-button>
+            </div>
+            <div class="slds-col">
+            <span></span>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+            <span></span>
+            </div>
+            <div class="slds-col">
+                <lightning-button label="Button3" variant="brand" onclick={handleButtonClick3}></lightning-button>
+            </div>
+            <div class="slds-col">
+            <span></span>
+            </div>
+        </div>
+
+        <template if:true={showNames}>
+            <template for:each={names} for:item="name">
+                <p key={name.Id}> Name: {name.name}, Phone: {name.phone}</p>
+            </template>
+        </template>
+    </lightning-card>
+
+</template>

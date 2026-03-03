@@ -1,0 +1,14 @@
+<template>
+
+    <lightning-card title="Details">    
+    <p>First Name: {firstName}</p>
+    <p>Last Name: {lastName}</p>
+    <p>Age: {age}</p>
+
+    
+    <lightning-input label="First Name" onchange={handleFirstNameChange}></lightning-input>
+    <lightning-input label="Last Name"  onchange={handleLastNameChange}></lightning-input>
+    <lightning-input label="Age" type="Number" onchange={handleAgeChange}></lightning-input>
+    </lightning-card>
+
+</template>

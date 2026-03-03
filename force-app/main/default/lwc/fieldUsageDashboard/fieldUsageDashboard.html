@@ -1,0 +1,100 @@
+<template>
+
+    <lightning-card title="Field Usage Dashboard" icon-name="utility:warning">
+
+        <div class="slds-p-around_medium">
+
+            <div class="table-container">
+
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+
+                    <thead>
+                        <tr class="slds-text-title_caps">
+
+                            <th>#</th>
+
+                            <th>Object</th>
+
+                            <th class="slds-text-align_right">Used</th>
+
+                            <th class="slds-text-align_right">Remaining</th>
+
+                            <th class="slds-text-align_right">Usage %</th>
+
+                            <th class="slds-text-align_right">Months Remaining</th>
+
+                            <th>Risk</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <template for:each={paginatedData} for:item="item">
+
+                            <tr key={item.objectName}>
+
+                                <td>{item.rowNumber}</td>
+
+                                <td>{item.objectName}</td>
+
+                                <td class="slds-text-align_right">
+                                    {item.usedFields}
+                                </td>
+
+                                <td class="slds-text-align_right">
+                                    {item.remainingFields}
+                                </td>
+
+                                <td class="slds-text-align_right">
+                                    {item.usagePercent}%
+                                </td>
+
+                                <td class="slds-text-align_right">
+                                    {item.monthsRemaining}
+                                </td>
+
+                                <td>
+                                    <span class={item.riskClass}>
+                                        {item.riskLevel}
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        </template>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- Pagination -->
+
+            <div class="pagination-container">
+
+                <lightning-button
+                    label="Previous"
+                    onclick={handlePrevious}
+                    disabled={disablePrevious}>
+                </lightning-button>
+
+                <span class="page-info">
+                    Page {currentPage} of {totalPages}
+                </span>
+
+                <lightning-button
+                    label="Next"
+                    onclick={handleNext}
+                    disabled={disableNext}
+                    variant="brand">
+                </lightning-button>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>

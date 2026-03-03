@@ -1,0 +1,54 @@
+    <template>
+        <lightning-card title="task 02" >
+
+        <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+            <template if:true={Button01}>
+            <lightning-button label="Button 1" onclick={showButton01}></lightning-button>
+            </template>
+        </div>
+        <div class="slds-col">
+                <template if:true={Button02}>
+            <lightning-button label="Button 2"  onclick={showButton02}></lightning-button>
+            </template>
+        </div>
+        </div>
+
+    
+
+
+    <div class="slds-grid">
+    <div class="slds-col">
+    <span></span>
+    </div>
+    <div class="slds-col">
+    <template if:true={Button03}>
+            <lightning-button label="Button 3"  onclick={showButton03}></lightning-button>
+    </template>
+    </div>
+    <div class="slds-col">
+    <span></span>
+    </div>
+    </div>
+
+
+    <div class="slds-grid">
+    <div class="slds-col">
+    <span></span>
+    </div>
+    <div class="slds-col">
+    <template if:true={Button04}>
+            <lightning-button label="Button 4"  onclick={showButton04}></lightning-button>
+    </template>
+    </div>
+    <div class="slds-col">
+    <span></span>
+    </div>
+    </div>
+
+
+    
+
+
+        </lightning-card>
+    </template>

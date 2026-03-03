@@ -1,0 +1,59 @@
+/* Container */
+
+.table-container {
+    overflow-x: auto;
+}
+
+/* Pagination layout */
+
+.pagination-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-top: 20px;
+}
+
+.page-info {
+
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Risk Colors */
+
+.green {
+
+    color: #2e844a;
+    font-weight: 600;
+}
+
+.orange {
+
+    color: #ff9f00;
+    font-weight: 600;
+}
+
+.red {
+
+    color: #d83a00;
+    font-weight: 600;
+}
+
+.darkred {
+
+    color: #ba0517;
+    font-weight: 700;
+}
+
+/* Optional: highlight critical row */
+
+.darkred {
+
+    background-color: #fff1f0;
+    padding: 3px 6px;
+    border-radius: 4px;
+}

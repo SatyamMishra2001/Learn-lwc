@@ -4,7 +4,7 @@
             <lightning-input label="Search Accounts"   onchange={handleSearch} ></lightning-input>
             <lightning-input label="Enter Limit"    onchange={handleLimit} ></lightning-input>
 
-            <lightning-button label="Get Accounts" onclick={handleGetAccounts} class="slds-m-bottom_small"></lightning-button>
+            <!-- <lightning-button label="Get Accounts" onclick={handleGetAccounts} class="slds-m-bottom_small"></lightning-button> -->
             <template if:true={accounts}>
                 <template for:each={accounts} for:item="account">
                     <div key={account.Id}>

@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Shopping Cart" icon-name="standard:contact">
+        
+        <!-- Spinner -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading contacts..." size="medium"></lightning-spinner>
+        </template>
+
+        <!-- Contact list -->
+        <template if:true={contacts}>
+            <ul class="slds-m-around_medium">
+                <template for:each={contacts} for:item="con">
+                    <li key={con.Id} class="slds-p-vertical_x-small">
+                        <lightning-icon icon-name="standard:contact" size="x-small"></lightning-icon>
+                        <span class="slds-m-left_small">{con.Name} - {con.Email} - {con.Phone}</span>
+                    </li>
+                </template>
+            </ul>
+        </template>
+
+        <!-- Error message -->
+        <template if:true={error}>
+            <p class="slds-text-color_error slds-m-around_medium">
+                Error fetching contacts: {error.body.message}
+            </p>
+        </template>
+
+        <!-- Refresh button -->
+        <div class="slds-m-around_medium">
+            <lightning-button label="Refresh" onclick={handleRefresh} icon-name="utility:refresh"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

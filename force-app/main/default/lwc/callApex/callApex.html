@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Accounts Record" icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            <lightning-input label="Search Accounts"   onchange={handleSearch} ></lightning-input>
+            <lightning-input label="Enter Limit"    onchange={handleLimit} ></lightning-input>
+
+            <lightning-button label="Get Accounts" onclick={handleGetAccounts} class="slds-m-bottom_small"></lightning-button>
+            <template if:true={accounts}>
+                <template for:each={accounts} for:item="account">
+                    <div key={account.Id}>
+                        <p>{account.Name}</p>             
+                    </div>
+                </template>
+            </template>
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -16,15 +16,15 @@ export default class CallApex extends LightningElement {
         this.limit = event.target.value;
     }
 
-    // handleGetAccounts() {
-    //     getAccounts({ name: this.searchKey, limitSize: this.limit })
-    //         .then(result => {
-    //             this.accounts = result;
-    //         })
-    //         .catch(error => {
-    //             this.error = error;
-    //         });
-    // }
+    handleGetAccounts() {
+        getAccounts({ name: this.searchKey, limitSize: this.limit })
+            .then(result => {
+                this.accounts = result;
+            })
+            .catch(error => {
+                this.error = error;
+            });
+    }
 
     @wire(getAccounts, { name: '$searchKey', limitSize: '$limit' })
     wiredAccounts({ error, data }) {

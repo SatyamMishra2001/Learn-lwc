@@ -1,100 +1,53 @@
 <template>
-
-    <lightning-card title="Field Usage Dashboard" icon-name="utility:warning">
-
+    <lightning-card title={dynamicTitle} icon-name="standard:metrics">
         <div class="slds-p-around_medium">
-
-            <div class="table-container">
-
-                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
-
+            <template if:true={metrics.data}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
                     <thead>
-                        <tr class="slds-text-title_caps">
-
-                            <th>#</th>
-
-                            <th>Object</th>
-
-                            <th class="slds-text-align_right">Used</th>
-
-                            <th class="slds-text-align_right">Remaining</th>
-
-                            <th class="slds-text-align_right">Usage %</th>
-
-                            <th class="slds-text-align_right">Months Remaining</th>
-
-                            <th>Risk</th>
-
+                        <tr class="slds-line-height_reset">
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Metric">Metric</div>
+                            </th>
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Value">Value</div>
+                            </th>
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        <template for:each={paginatedData} for:item="item">
-
-                            <tr key={item.objectName}>
-
-                                <td>{item.rowNumber}</td>
-
-                                <td>{item.objectName}</td>
-
-                                <td class="slds-text-align_right">
-                                    {item.usedFields}
-                                </td>
-
-                                <td class="slds-text-align_right">
-                                    {item.remainingFields}
-                                </td>
-
-                                <td class="slds-text-align_right">
-                                    {item.usagePercent}%
-                                </td>
-
-                                <td class="slds-text-align_right">
-                                    {item.monthsRemaining}
-                                </td>
-
-                                <td>
-                                    <span class={item.riskClass}>
-                                        {item.riskLevel}
-                                    </span>
-                                </td>
-
-                            </tr>
-
-                        </template>
-
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Total Custom Fields</div></td>
+                            <td data-label="Value"><div class="slds-truncate"><b>{metrics.data.totalCustomFields}</b></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Rolling 90-Day Additions</div></td>
+                            <td data-label="Value"><div class="slds-truncate">{metrics.data.rolling90DayAdditions}</div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Rolling 90-Day Deletions</div></td>
+                            <td data-label="Value"><div class="slds-truncate">{metrics.data.rolling90DayDeletions}</div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Growth Acceleration</div></td>
+                            <td data-label="Value"><div class="slds-truncate">{metrics.data.growthAcceleration}%</div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Field Churn Ratio</div></td>
+                            <td data-label="Value"><div class="slds-truncate">{metrics.data.fieldChurnRatio}%</div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Org Maturity Phase</div></td>
+                            <td data-label="Value"><div class="slds-truncate">{metrics.data.orgMaturityPhase}</div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Metric"><div class="slds-truncate">Risk Level</div></td>
+                            <td data-label="Value"><div class="slds-truncate slds-text-color_error"><b>{metrics.data.riskLevel}</b></div></td>
+                        </tr>
                     </tbody>
-
                 </table>
-
-            </div>
-
-            <!-- Pagination -->
-
-            <div class="pagination-container">
-
-                <lightning-button
-                    label="Previous"
-                    onclick={handlePrevious}
-                    disabled={disablePrevious}>
-                </lightning-button>
-
-                <span class="page-info">
-                    Page {currentPage} of {totalPages}
-                </span>
-
-                <lightning-button
-                    label="Next"
-                    onclick={handleNext}
-                    disabled={disableNext}
-                    variant="brand">
-                </lightning-button>
-
-            </div>
-
+            </template>
+            <template if:true={metrics.error}>
+                <div class="slds-text-color_error">Error retrieving health metrics.</div>
+            </template>
         </div>
-
     </lightning-card>
-
 </template>

@@ -2,32 +2,29 @@ import { LightningElement } from 'lwc';
 
 export default class Counter extends LightningElement {
 
-count = 0;
+count =0;
+isZero = true;
 
-isIncrementedOrDecremented = false;
-isIncremented = false;
-isDecremented = false;
+increment() {
+    this.count++;
+    if(this.count === 0) {
+        this.isZero = true;
+    }
+    else {      
+          this.isZero = false;
+    }
+ 
 
-handleIncrement(){
-    this.count = this.count + 1;
-    this.isIncrementedOrDecremented = true;
-    this.isIncremented = true;
-    this.isDecremented = false;
 }
 
-handleDecrement(){
-    this.count = this.count - 1;
-    this.isIncrementedOrDecremented = true;
-    this.isDecremented = true;
-    this.isIncremented = false;
-}   
 
-handleIncrementDecrement(){
-    if(this.isIncremented){
-        this.count = this.count + 2;
+decrement() {
+    this.count--;
+    if(this.count === 0) {
+        this.isZero = true;
     }
-    if(this.isDecremented){
-        this.count = this.count - 2;
+    else {
+        this.isZero = false;
     }
 }
 

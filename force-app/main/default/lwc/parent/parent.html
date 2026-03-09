@@ -1,0 +1,9 @@
+<template>
+    <lightning-card title="Parent" icon-name="custom:custom14">
+        <p>This is parent Component</p>
+
+        <lightning-input label="Send Message" onchange={sendMessage}></lightning-input>
+    </lightning-card>
+
+    <c-child childmessage={message} ></c-child>
+</template>

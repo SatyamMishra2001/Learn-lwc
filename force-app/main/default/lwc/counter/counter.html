@@ -1,38 +1,13 @@
 <template>
 
-<lightning-card title="Counter">
-<div class="slds-p-horizontal_medium">
-        <p>Count: {count}</p>
-
-    <div class="slds-grid slds-grid_pull-padded-medium">
-    <div class="slds-col slds-p-horizontal_medium">
-    <lightning-button label="Increment" onclick={handleIncrement}></lightning-button>
+    <lightning-card title="Counter" icon-name="custom:custom63">
+        <div>      
+            <p>Count: {count}</p>
+            <lightning-button label="Increment" onclick={increment}></lightning-button>
+            <template if:false={isZero}>
+                <lightning-button label="Decrement" onclick={decrement}></lightning-button>
+            </template>
         </div>
-    <div class="slds-col slds-p-horizontal_medium">
-        <lightning-button label="Decrement" onclick={handleDecrement}></lightning-button>
-    </div>
-    </div>
-
-
-
-            <div class="slds-grid slds-grid_reverse">
-                <div class="slds-col">
-                <span></span>
-                </div>
-                <div class="slds-col">
-                    <template if:true={isIncrementedOrDecremented}>
-            <lightning-button label="++/--" onclick={handleIncrementDecrement}></lightning-button>
-            </template>                </div>
-                <div class="slds-col">
-                <span></span>
-                </div>
-                </div>
-
-
-
-
-    
-</div>
-</lightning-card>
+    </lightning-card>
 
 </template>

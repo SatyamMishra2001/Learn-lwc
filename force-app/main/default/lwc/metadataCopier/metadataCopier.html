@@ -1,0 +1,365 @@
+<!-- metadataCopier.html -->
+<template>
+    <lightning-card title="SF Metadata Copier" icon-name="utility:copy">
+
+        <!-- ─────────────────────────────────── -->
+        <!-- STEP INDICATOR                      -->
+        <!-- ─────────────────────────────────── -->
+        <div class="slds-progress slds-progress_shade slds-m-around_medium">
+            <ol class="slds-progress__list">
+                <li class={stepClass1}>
+                    <button class="slds-progress__marker" title="Step 1: Select Objects">
+                        <span class="slds-assistive-text">Step 1</span>
+                    </button>
+                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">
+                        <span>Select Objects</span>
+                    </div>
+                </li>
+                <li class={stepClass2}>
+                    <button class="slds-progress__marker" title="Step 2: Choose Metadata">
+                        <span class="slds-assistive-text">Step 2</span>
+                    </button>
+                    <div class="slds-progress__item_content">
+                        <span>Choose Metadata</span>
+                    </div>
+                </li>
+                <li class={stepClass3}>
+                    <button class="slds-progress__marker" title="Step 3: Copy">
+                        <span class="slds-assistive-text">Step 3</span>
+                    </button>
+                    <div class="slds-progress__item_content">
+                        <span>Copy &amp; Deploy</span>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+            <!-- ─────────────────────────────────── -->
+            <!-- STEP 1: OBJECT SELECTION            -->
+            <!-- ─────────────────────────────────── -->
+            <lightning-card title="Step 1 — Select Source &amp; Target Objects">
+                <div class="slds-p-around_medium">
+                    <div class="slds-grid slds-gutters slds-wrap">
+
+                        <!-- Source Object -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12">
+                            <lightning-combobox
+                                name="sourceObject"
+                                label="Source Object"
+                                placeholder="Select source..."
+                                options={objectOptions}
+                                value={sourceObject}
+                                onchange={handleSourceChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-align_absolute-center">
+                            <lightning-icon
+                                icon-name="utility:forward"
+                                size="medium"
+                                class="slds-m-top_large">
+                            </lightning-icon>
+                        </div>
+
+                        <!-- Target Object -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12">
+                            <lightning-combobox
+                                name="targetObject"
+                                label="Target Object"
+                                placeholder="Select target..."
+                                options={objectOptions}
+                                value={targetObject}
+                                onchange={handleTargetChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+
+                    <!-- Error if same object selected -->
+                    <template if:true={sameObjectError}>
+                        <div class="slds-m-top_small">
+                            <p class="slds-text-color_error">
+                                ⚠️ Source and Target objects must be different.
+                            </p>
+                        </div>
+                    </template>
+                </div>
+            </lightning-card>
+
+            <!-- ─────────────────────────────────── -->
+            <!-- STEP 2: METADATA SELECTION          -->
+            <!-- ─────────────────────────────────── -->
+            <template if:true={showMetadataSection}>
+                <lightning-card title="Step 2 — Select Metadata to Copy" class="slds-m-top_medium">
+                    <div class="slds-p-around_medium">
+
+                        <!-- Tabs for each metadata type -->
+                        <lightning-tabset>
+
+                            <!-- FIELDS TAB -->
+                            <lightning-tab label={fieldsTabLabel} value="fields">
+                                <template if:true={isLoadingFields}>
+                                    <lightning-spinner alternative-text="Loading fields..." size="small">
+                                    </lightning-spinner>
+                                </template>
+                                <template if:false={isLoadingFields}>
+                                    <template if:true={hasFields}>
+                                        <div class="slds-m-bottom_small">
+                                            <lightning-button
+                                                label="Select All Fields"
+                                                variant="neutral"
+                                                onclick={selectAllFields}>
+                                            </lightning-button>
+                                            <lightning-button
+                                                label="Clear All"
+                                                variant="neutral"
+                                                class="slds-m-left_x-small"
+                                                onclick={clearAllFields}>
+                                            </lightning-button>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <template for:each={fields} for:item="field">
+                                                <div key={field.apiName}
+                                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_xx-small">
+                                                    <div class={field.cardClass}
+                                                         onclick={handleFieldToggle}
+                                                         data-api={field.apiName}
+                                                         role="checkbox"
+                                                         aria-checked={field.selected}>
+                                                        <div class="slds-media slds-media_center slds-p-around_x-small">
+                                                            <div class="slds-media__figure">
+                                                                <lightning-icon
+                                                                    icon-name={field.icon}
+                                                                    size="x-small"
+                                                                    class="slds-m-right_x-small">
+                                                                </lightning-icon>
+                                                            </div>
+                                                            <div class="slds-media__body">
+                                                                <p class="slds-text-heading_small">{field.label}</p>
+                                                                <p class="slds-text-body_small slds-text-color_weak">
+                                                                    {field.apiName}
+                                                                </p>
+                                                                <lightning-badge label={field.dataType}></lightning-badge>
+                                                            </div>
+                                                            <div class="slds-media__figure slds-media__figure_reverse">
+                                                                <template if:true={field.selected}>
+                                                                    <lightning-icon
+                                                                        icon-name="utility:check"
+                                                                        size="x-small"
+                                                                        variant="success">
+                                                                    </lightning-icon>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:false={hasFields}>
+                                        <p class="slds-text-color_weak slds-p-around_medium">
+                                            No custom fields found on {sourceObject}.
+                                        </p>
+                                    </template>
+                                </template>
+                            </lightning-tab>
+
+                            <!-- VALIDATION RULES TAB -->
+                            <lightning-tab label={validationTabLabel} value="validationRules">
+                                <template if:true={isLoadingRules}>
+                                    <lightning-spinner alternative-text="Loading rules..." size="small">
+                                    </lightning-spinner>
+                                </template>
+                                <template if:false={isLoadingRules}>
+                                    <template if:true={hasRules}>
+                                        <div class="slds-m-bottom_small">
+                                            <lightning-button label="Select All Rules" variant="neutral" onclick={selectAllRules}></lightning-button>
+                                            <lightning-button label="Clear All" variant="neutral" class="slds-m-left_x-small" onclick={clearAllRules}></lightning-button>
+                                        </div>
+                                        <template for:each={validationRules} for:item="rule">
+                                            <div key={rule.id}
+                                                 class={rule.cardClass}
+                                                 onclick={handleRuleToggle}
+                                                 data-id={rule.id}
+                                                 style="margin-bottom: 8px; cursor: pointer; border-radius: 4px; border: 1px solid #dddbda; padding: 12px;">
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <div>
+                                                        <p class="slds-text-heading_small">{rule.fullName}</p>
+                                                        <p class="slds-text-body_small slds-text-color_weak">{rule.errorMessage}</p>
+                                                        <lightning-badge
+                                                            label={rule.activeLabel}
+                                                            class={rule.activeBadgeClass}>
+                                                        </lightning-badge>
+                                                    </div>
+                                                    <template if:true={rule.selected}>
+                                                        <lightning-icon icon-name="utility:check" size="small" variant="success"></lightning-icon>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={hasRules}>
+                                        <p class="slds-text-color_weak slds-p-around_medium">
+                                            No validation rules found on {sourceObject}.
+                                        </p>
+                                    </template>
+                                </template>
+                            </lightning-tab>
+
+                            <!-- PAGE LAYOUTS TAB -->
+                            <lightning-tab label={layoutsTabLabel} value="pageLayouts">
+                                <template if:true={isLoadingLayouts}>
+                                    <lightning-spinner alternative-text="Loading layouts..." size="small"></lightning-spinner>
+                                </template>
+                                <template if:false={isLoadingLayouts}>
+                                    <template if:true={hasLayouts}>
+                                        <div class="slds-m-bottom_small">
+                                            <lightning-button label="Select All Layouts" variant="neutral" onclick={selectAllLayouts}></lightning-button>
+                                            <lightning-button label="Clear All" variant="neutral" class="slds-m-left_x-small" onclick={clearAllLayouts}></lightning-button>
+                                        </div>
+                                        <template for:each={pageLayouts} for:item="layout">
+                                            <div key={layout.id}
+                                                 class={layout.cardClass}
+                                                 onclick={handleLayoutToggle}
+                                                 data-id={layout.id}
+                                                 style="margin-bottom: 8px; cursor: pointer; border-radius: 4px; border: 1px solid #dddbda; padding: 12px;">
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <div>
+                                                        <p class="slds-text-heading_small">{layout.name}</p>
+                                                        <p class="slds-text-body_small slds-text-color_weak">{layout.id}</p>
+                                                    </div>
+                                                    <template if:true={layout.selected}>
+                                                        <lightning-icon icon-name="utility:check" size="small" variant="success"></lightning-icon>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={hasLayouts}>
+                                        <p class="slds-text-color_weak slds-p-around_medium">
+                                            No page layouts found on {sourceObject}.
+                                        </p>
+                                    </template>
+                                </template>
+                            </lightning-tab>
+
+                            <!-- RECORD TYPES TAB -->
+                            <lightning-tab label={recordTypesTabLabel} value="recordTypes">
+                                <template if:true={isLoadingRTs}>
+                                    <lightning-spinner alternative-text="Loading record types..." size="small"></lightning-spinner>
+                                </template>
+                                <template if:false={isLoadingRTs}>
+                                    <template if:true={hasRecordTypes}>
+                                        <div class="slds-m-bottom_small">
+                                            <lightning-button label="Select All Record Types" variant="neutral" onclick={selectAllRTs}></lightning-button>
+                                            <lightning-button label="Clear All" variant="neutral" class="slds-m-left_x-small" onclick={clearAllRTs}></lightning-button>
+                                        </div>
+                                        <template for:each={recordTypes} for:item="rt">
+                                            <div key={rt.id}
+                                                 class={rt.cardClass}
+                                                 onclick={handleRTToggle}
+                                                 data-id={rt.id}
+                                                 style="margin-bottom: 8px; cursor: pointer; border-radius: 4px; border: 1px solid #dddbda; padding: 12px;">
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <div>
+                                                        <p class="slds-text-heading_small">{rt.name}</p>
+                                                        <p class="slds-text-body_small slds-text-color_weak">{rt.developerName}</p>
+                                                    </div>
+                                                    <template if:true={rt.selected}>
+                                                        <lightning-icon icon-name="utility:check" size="small" variant="success"></lightning-icon>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={hasRecordTypes}>
+                                        <p class="slds-text-color_weak slds-p-around_medium">
+                                            No record types found on {sourceObject}.
+                                        </p>
+                                    </template>
+                                </template>
+                            </lightning-tab>
+
+                        </lightning-tabset>
+                    </div>
+                </lightning-card>
+            </template>
+
+            <!-- ─────────────────────────────────── -->
+            <!-- SUMMARY BAR + COPY BUTTON          -->
+            <!-- ─────────────────────────────────── -->
+            <template if:true={showSummary}>
+                <div class="slds-box slds-theme_shade slds-m-top_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-wrap">
+                        <div class="slds-col">
+                            <p class="slds-text-heading_small">
+                                📋 <strong>{sourceObject}</strong>
+                                &nbsp;→&nbsp;
+                                <strong>{targetObject}</strong>
+                            </p>
+                            <p class="slds-text-body_small slds-text-color_weak">
+                                {totalSelectedCount} item(s) selected for copy
+                            </p>
+                        </div>
+                        <div class="slds-col_bump-left">
+                            <lightning-button
+                                label="⚡ Copy Metadata"
+                                variant="brand"
+                                onclick={handleCopyMetadata}
+                                disabled={isCopyDisabled}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ─────────────────────────────────── -->
+            <!-- COPY RESULT                         -->
+            <!-- ─────────────────────────────────── -->
+            <template if:true={showResult}>
+                <lightning-card title="Copy Result" class="slds-m-top_medium">
+                    <div class="slds-p-around_medium">
+                        <template if:true={copySuccess}>
+                            <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                                <span class="slds-assistive-text">Success:</span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">✅ {resultMessage}</h2>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={copySuccess}>
+                            <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                                <span class="slds-assistive-text">Error:</span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">❌ {resultMessage}</h2>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Detail log -->
+                        <template if:true={hasResultDetails}>
+                            <ul class="slds-list_dotted slds-m-top_medium">
+                                <template for:each={resultDetails} for:item="detail">
+                                    <li key={detail}>{detail}</li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+                </lightning-card>
+            </template>
+
+            <!-- Loading spinner for copy operation -->
+            <template if:true={isCopying}>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-spinner alternative-text="Copying metadata..." size="large"></lightning-spinner>
+                    <p class="slds-text-body_regular slds-m-top_medium">Deploying metadata, please wait...</p>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,19 @@
+/* metadataCopier.css */
+
+.metadata-card {
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.metadata-card:hover {
+    border-color: #0176d3;
+    background-color: #f0f8ff;
+}
+
+.metadata-card.slds-theme_shade {
+    border-color: #0176d3;
+    background-color: #e8f4fd;
+}

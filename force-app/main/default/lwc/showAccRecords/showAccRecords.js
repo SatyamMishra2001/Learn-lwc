@@ -1,3 +1,25 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
+import getAccounts from '@salesforce/apex/fetchAccounts.getRecords';
 
-export default class ShowAccRecords extends LightningElement {}
+const columns = [
+    {label : 'Name', fieldName : 'Name'},
+    {label : 'Industry', fieldName : 'Industry'},
+];
+
+export default class ShowAccRecords extends LightningElement {
+
+    accounts;
+    error;
+    columns = columns;
+
+    @wire(getAccounts)
+    wiredAccounts({error, data}){
+        if(data){
+            this.accounts = data;
+        }
+        if(error){
+            this.error = error;
+        }
+    }
+
+}

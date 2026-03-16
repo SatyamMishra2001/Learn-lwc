@@ -1,3 +1,8 @@
 <template>
-    
+    <lightning-card title="parent Life Cycle Comp"  icon-name="custom:cumstom63">
+        <template if:true={isChildCmpVisible}>
+            <c-child-life-cycle-hook-cmp></c-child-life-cycle-hook-cmp>
+        </template>
+        <lightning-button label={buttonLabel} onclick={handleToggleChildCmp} class="slds-m-top_medium"></lightning-button>
+    </lightning-card>
 </template>

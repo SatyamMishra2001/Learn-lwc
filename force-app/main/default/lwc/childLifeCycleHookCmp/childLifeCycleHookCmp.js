@@ -1,7 +1,6 @@
 import { LightningElement } from 'lwc';
 
-export default class LifeCycleHooksDemo extends LightningElement {
-
+export default class ChildLifeCycleHookCmp extends LightningElement {
 
     constructor(){
         super();
@@ -23,5 +22,6 @@ export default class LifeCycleHooksDemo extends LightningElement {
     errorCallback(error, stack){
         console.log('Error Callback called');
     }
+    
 
 }

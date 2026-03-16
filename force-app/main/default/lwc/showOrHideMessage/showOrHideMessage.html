@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Show or Hide Message" icon-name="custom:custom63">
+        <div>
+            <template if:false={showMessage}>
+                <p>Welcome to LWC Practice!</p>
+            </template>
+            <lightning-button label="Click to Toggle Message" onclick={toggleMessage}></lightning-button>
+        </div>  
+    </lightning-card>
+</template>

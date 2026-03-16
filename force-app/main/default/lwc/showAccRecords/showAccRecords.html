@@ -1,16 +1,20 @@
 <template>
     <lightning-card title="Show Accounts" icon-name="custom:custom14">
         <div>
+            <lightning-input label="Enter Account Name" type="text" onchange={accountname}></lightning-input>
+            <lightning-input label="Enter Number of Records" type ="number" onchange={countofrecords}></lightning-input>
             <template if:true={accounts}>
                 <lightning-datatable
                     key-field="Id"
                     data={accounts}
-                    columns={columns}
+                    columns={clms}
                 ></lightning-datatable>
             </template>
             <template if:true={error}>
                 <p>Error: {error.body.message}</p>
             </template>
+            <lightning-button label="Previous" onclick={prevHandler}></lightning-button>
+            <lightning-button label="Next" onclick={nextHandler}></lightning-button>
         </div>
     </lightning-card>
 </template>

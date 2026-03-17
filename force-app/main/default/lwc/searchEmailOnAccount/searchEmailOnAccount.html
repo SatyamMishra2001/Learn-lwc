@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Search Account Via Email">
+        <lightning-input type="email" label="Enter Email" value={email} onchange={handleEmailChange}></lightning-input>
+        <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+        <template if:true={account}>
+            <template for:each={account} for:item="account">
+                <p key={account.Id}>Account Name : {account.Name}</p>
+                <p key={account.Id}>Account Email : {account.Email__c}</p>
+            </template>
+        </template>
+    </lightning-card>
+       
+</template>

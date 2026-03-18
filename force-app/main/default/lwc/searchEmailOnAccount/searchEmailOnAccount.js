@@ -4,7 +4,7 @@ import searchAccountByEmail from '@salesforce/apex/fetchAccounts.getRecords';
 export default class SearchEmailOnAccount extends LightningElement {
 
     email;
-    account;
+    account = [];
 
 
     handleEmailChange(event){

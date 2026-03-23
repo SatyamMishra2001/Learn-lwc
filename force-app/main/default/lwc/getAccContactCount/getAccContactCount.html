@@ -1,0 +1,16 @@
+    <template>
+        <lightning-card title="Get Account Contact Count" icon-name="standard:account">
+            <lightning-button label="Get Contact Count" onclick={getContactCount} variant="brand" class="slds-m-around_medium"></lightning-button>
+        <template for:each={accountList} for:item="accWrapper">
+        <template if:true={accWrapper.acc}>
+            <p key={accWrapper.acc.Id}>
+                Account Name: {accWrapper.acc.Name}, 
+                Contact Count: {accWrapper.CountOfAcc}
+            </p>
+        </template>
+    </template>
+            <template if:true={error}>
+                <p class="slds-text-color_error">Error: {error}</p>
+            </template>
+        </lightning-card>
+    </template>
